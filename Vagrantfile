@@ -33,8 +33,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Build Agents
   [
-    ["agent1",    "#{network_ip}.11",    "1024",    os ],
-    ["agent2",    "#{network_ip}.12",    "1024",    os ],
+    ["agent1",    "#{network_ip}.11",    "2048",    os],
+    ["agent2",    "#{network_ip}.12",    "2048",    os],
   ].each do |vmname,ip,mem,os|
     config.vm.define "#{vmname}" do |agent_config|
       agent_config.vm.provider "virtualbox" do |vb|
@@ -52,6 +52,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get -y upgrade && apt-get -y dist-upgrade
         apt-get -y autoremove && apt-get -y autoclean
         apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
+        adduser --disabled-login --gecos 'Jenkins' jenkins
+        apt-key add docker-key > /dev/null 2>&1
+        rm docker-key
+        add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        apt-get update
+        apt-get -y install docker-ce docker-ce-cli containerd.io
+        usermod -aG docker vagrant
+        usermod -aG docker jenkins
       SHELL
     end
   end

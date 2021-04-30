@@ -7,7 +7,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   os = "ubuntu/focal64"
   network_ip = "192.168.80"
 
-  config.vm.define :master, primary: true do |jenkins_config|
+  config.vm.define :jenkins, primary: true do |jenkins_config|
     jenkins_config.vm.provider "virtualbox" do |vb|
         vb.memory = "2048"
         vb.cpus = 2
@@ -53,6 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get -y autoremove && apt-get -y autoclean
         apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
         adduser --disabled-login --gecos 'Jenkins' jenkins
+        curl -o docker-key -fsSL https://download.docker.com/linux/ubuntu/gpg
         apt-key add docker-key > /dev/null 2>&1
         rm docker-key
         add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"

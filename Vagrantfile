@@ -23,6 +23,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       apt-get -y upgrade && apt-get -y dist-upgrade
       apt-get -y autoremove && apt-get -y autoclean
       apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
+      apt-get -y install python3 python3-venv
       apt-get -y install default-jre
       wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
       sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
@@ -52,6 +53,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get -y upgrade && apt-get -y dist-upgrade
         apt-get -y autoremove && apt-get -y autoclean
         apt-get -y install apt-transport-https ca-certificates gnupg-agent software-properties-common
+        apt-get -y install python3 python3-venv
+        apt-get -y install default-jre
         adduser --disabled-login --gecos 'Jenkins' jenkins
         curl -o docker-key -fsSL https://download.docker.com/linux/ubuntu/gpg
         apt-key add docker-key > /dev/null 2>&1
@@ -61,6 +64,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get -y install docker-ce docker-ce-cli containerd.io
         usermod -aG docker vagrant
         usermod -aG docker jenkins
+        if [ -d /home/jenkins ]; then
+          su - jenkins -c "mkdir /home/jenkins/jenkins_agent"
+        fi
       SHELL
     end
   end

@@ -64,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         apt-get -y install docker-ce docker-ce-cli containerd.io
         usermod -aG docker vagrant
         usermod -aG docker jenkins
-        if [ ! -d /home/jenkins ]; then
+        if [ ! -d /home/jenkins/jenkins_agent ] && [ ! -d /home/jenkins/.ssh ]; then
           su - jenkins -c "mkdir /home/jenkins/jenkins_agent /home/jenkins/.ssh && chmod 600 /home/jenkins/.ssh"
           su - jenkins -c "touch /home/jenkins/.ssh/authorized_keys"
         fi

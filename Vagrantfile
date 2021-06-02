@@ -65,8 +65,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         usermod -aG docker vagrant
         usermod -aG docker jenkins
         if [ ! -d /home/jenkins/jenkins_agent ] && [ ! -d /home/jenkins/.ssh ]; then
-          su - jenkins -c "mkdir /home/jenkins/jenkins_agent /home/jenkins/.ssh && chmod 600 /home/jenkins/.ssh"
-          su - jenkins -c "touch /home/jenkins/.ssh/authorized_keys"
+          su - jenkins -c "mkdir /home/jenkins/jenkins_agent /home/jenkins/.ssh && touch /home/jenkins/.ssh/authorized_keys"
+          su - jenkins -c "chmod 700 /home/jenkins/.ssh"
         fi
       SHELL
     end
